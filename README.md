@@ -1,2 +1,2 @@
 # Weather-API
-Analyse and compare changes in the weather of 15 major cities across UK.
+Analyse and compare changes in the weather of 15 major cities across UK using data from Weather API.
