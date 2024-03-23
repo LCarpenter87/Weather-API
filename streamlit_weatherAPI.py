@@ -2,5 +2,9 @@ import streamlit as st
 import psycopg2
 import pandas as pd
 
-conn = st.experimental_connection('pagilla_db', type='postgresql')
-conn
+
+# Initialize connection.
+conn = st.connection("pagilla_db", type="sql")
+
+# Perform query.
+df = conn.query('SELECT * FROM weather;', ttl="10m")
