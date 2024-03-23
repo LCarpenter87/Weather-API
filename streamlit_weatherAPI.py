@@ -10,15 +10,10 @@ conn = init_connection()
 
 st.title('Welcome to our Weather App')
 
-@st.cache_data(ttl=600)
-def run_query(query):
-    with conn.cursor() as cur:
-        cur.execute(query)
-        return cur.fetchall()
+cur = conn.cursor()
+cur.execute("SELECT * FROM student.weather limit 10")
+data = cur.fetchall()
 
-rows = run_query("SELECT * from weather limit 20")
-
-data=pd.DataFrame(rows)
-data.columns=['location', 'country', 'date', 'current_time', 'time_updated', 'temperature', 'condition', 'wind_speed_mph', 'wind_direction', 'humidity', 'cloud', 'uv_index', 'co', 'no2', 'o3']
-st.table(data)
+st.write(pd.DataFrame(data, columns=['Location', 'Country', 'Date', 'Current Time', 'Time Updated', 'Temperature', 'Condition', 'Wind Speed (mph)', 'Wind Direction', 'Humidity', 'Cloud', 'UV Index', 'CO', 'NO2', 'O3']))
+conn.close()
 
