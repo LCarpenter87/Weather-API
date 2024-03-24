@@ -32,18 +32,28 @@ selected_city = st.sidebar.selectbox('Select a city', cities)
 
 weather_data = temperature, condition, icon, humidity, Cloud_cover, UV_index, CO, NO2, Ozone = get_details(selected_city)
 
-if weather_data:
-    st.title(f"{selected_city}")
-    st.write(f"Temperature: {temperature}°C")
-    st.write(f"Condition: {condition}")
-    st.write(f"Humidity: {humidity}%")
-    st.write(f"Cloud Cover: {Cloud_cover}%")
-    st.write(f"UV Index: {UV_index}")
-    st.write(f"CO: {CO}")
-    st.write(f"NO2: {NO2}")
-    st.write(F"Ozone (O3): {Ozone}")
-    icon_url = "https:" + icon
-    st.image(icon_url, caption='Weather Condition', use_column_width=True)
 
-else:
-    st.error("Failed to fetch weather data. Please try again later.")
+
+left_col, middle_col, cent_col, right_col = st.columns([10,7, 7,10])
+
+with left_col:
+
+    if weather_data:
+        st.title(f"{selected_city}")
+        st.write(f"Temperature: {temperature}°C")
+        st.write(f"Condition: {condition}")
+        st.write(f"Humidity: {humidity}%")
+        st.write(f"Cloud Cover: {Cloud_cover}%")
+        st.write(f"UV Index: {UV_index}")
+        st.write(f"CO: {CO}")
+        st.write(f"NO2: {NO2}")
+        st.write(F"Ozone (O3): {Ozone}")
+    else:
+        st.error("Failed to fetch weather data. Please try again later.")
+
+with right_col:
+
+    if weather_data:
+        icon_url = "https:" + icon
+        st.image(icon_url, caption='Weather Condition', use_column_width=True)
+    
