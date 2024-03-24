@@ -66,70 +66,29 @@ with right_col:
 # Load environment variables from .env
 load_dotenv()
 
-# Get database credentials 
+# Get database credentials
 DB_NAME = os.getenv("DB_NAME")
 DB_USER = os.getenv("DB_USER")
 DB_PASSWORD = os.getenv("DB_PASSWORD")
 DB_HOST = os.getenv("DB_HOST")
 DB_PORT = os.getenv("DB_PORT")
 
-# set up db connection:
-
-def connect_to_db():
-    try:
-        engine = create_engine(f'postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}')
-        query = f'SELECT * FROM weather' 
-        data = pd.read_sql(query, engine)
-        return data
-    except Exception as e:
-        print(f"Error connecting to the database: {e}")
-        return None
-
-#data1 = connect_to_db()
-
-import matplotlib.pyplot as plt
-
-def temperature_data():
-    try:
-        # Establish a connection to the database
-        engine = create_engine(f'postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}')
-
-        # Query to fetch temperature data with dates
-        query = "SELECT date, temperature FROM weather"
-
-        # Fetch the data from the database
-        data = pd.read_sql(query, engine)
-
-        # Close the database connection
-        engine.dispose()
-
-        return data
-    except Exception as e:
-        print(f"Error fetching temperature data: {e}")
-        return None
-
-def plot_temperature_dates(data):
-    if data is not None:
-        # Convert the 'date' column to datetime format
-        data['date'] = pd.to_datetime(data['date'])
-
-        # Plot temperature against dates
-        plt.figure(figsize=(10, 6))
-        plt.plot(data['date'], data['temperature'], marker='o', linestyle='-')
-        plt.title('Temperature Variation Over Dates')
-        plt.xlabel('Date')
-        plt.ylabel('Temperature (°C)')
-        plt.grid(True)
-        plt.show()
-    else:
-        print("No data available to plot.")
-
-# Fetch temperature data from the database
-temperature_data = temperature_data()
+# Connect to the database and fetch temperature data
+engine = create_engine(f'postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}')
+data = pd.read_sql("SELECT date, temperature FROM weather", engine)
 
 # Plot temperature against dates
-plot_temperature_dates(temperature_data)
-
+if not data.empty:
+    data['date'] = pd.to_datetime(data['date'])
+    plt.figure(figsize=(10, 6))
+    plt.plot(data['date'], data['temperature'], marker='o', linestyle='-')
+    plt.title('Temperature Variation Over Dates')
+    plt.xlabel('Date')
+    plt.ylabel('Temperature (°C)')
+    plt.grid(True)
+    plt.show()
+else:
+    print("No data available to plot.")
 
 
 
