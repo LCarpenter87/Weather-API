@@ -67,8 +67,6 @@ with right_col:
 # Load environment variables from .env
 load_dotenv()
 
-# set up db connection:
-
 # Get database credentials 
 DB_NAME = os.getenv("DB_NAME")
 DB_USER = os.getenv("DB_USER")
@@ -76,11 +74,8 @@ DB_PASSWORD = os.getenv("DB_PASSWORD")
 DB_HOST = os.getenv("DB_HOST")
 DB_PORT = os.getenv("DB_PORT")
 
-# initialise connection
+# set up db connection:
 
-st.title('Trends in Earthquake Frequency')
-
-# Function to load data from the database
 def connect_to_db():
     engine = create_engine(f'postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}')
     query = f'SELECT * FROM weather' 
