@@ -24,7 +24,7 @@ selected_city = st.sidebar.selectbox('Select a city', cities)
 weather_data = get_details(selected_city)
 
 if weather_data:
-    st.title(f"Weather Information for {selected_city}")
+    st.title(f"{selected_city}")
     st.write(f"Temperature: {weather_data['current']['temp_c']}°C")
     st.write(f"Condition: {weather_data['current']['condition']['text']}")
     st.write(f"Humidity: {weather_data['current']['humidity']}%")
