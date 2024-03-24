@@ -6,6 +6,7 @@ import sqlalchemy
 import pandas as pd
 
 st.title('Welcome to our Weather App')
+st.write("**Select a city from the side bar to explore its weather.**")
 
 
 def get_details(cities):
@@ -32,7 +33,7 @@ selected_city = st.sidebar.selectbox('Select a city', cities)
 
 weather_data = temperature, condition, icon, humidity, Cloud_cover, UV_index, CO, NO2, Ozone = get_details(selected_city)
 
-
+# Position the informaiton and the image on page:
 
 left_col,  right_col, right_hand_col = st.columns([10,6, 4])
 
@@ -57,3 +58,5 @@ with right_col:
         icon_url = "https:" + icon
         st.image(icon_url, caption='Weather Condition', use_column_width=True)
     
+# Initialise connection to database:
+
