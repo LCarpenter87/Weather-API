@@ -102,7 +102,7 @@ def plot_temp_data(city_temp, city_name):
     st.pyplot()
 
 
-def main():
+def main(cities):
     # Select city
     selected_city = st.sidebar.selectbox('Select a city', cities)
 
