@@ -1,8 +1,9 @@
 import streamlit as st
 import requests
 import numpy as np
-import sqlalchemy
-#import psycopg2
+#import sqlalchemy
+from sqlalchemy import create_engine
+import psycopg2
 import pandas as pd
 
 st.title('Welcome to our Weather App')
@@ -59,4 +60,21 @@ with right_col:
         st.image(icon_url, caption='Weather Condition', use_column_width=True)
     
 # Initialise connection to database:
+
+dbname=st.secrets['DB_USER']
+dbuser=st.secrets['DB_USER']
+password=st.secrest['DB_PASSWORD']
+host=st.secrets['DB_HOST']
+port=st.secrets['DB_PORT']
+
+def db_connect():
+    try:
+        engine = create_engine(f"postgresql://{dbuser}:{password}@{host}:{port}/{dbname}")
+        query = f'SELECT * FROM weather'
+        data = pd.read_sql(query, engine)
+        return data
+    except Exception as e:
+        print(f"Error: {e}")
+        return None 
+
 
