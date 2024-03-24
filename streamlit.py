@@ -113,7 +113,7 @@ def main(cities):
     plot_temp_data(city_data, selected_city)
 
 
-main()
+main(cities)
 
 
 
