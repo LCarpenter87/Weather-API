@@ -5,6 +5,7 @@ import numpy as np
 from sqlalchemy import create_engine
 import psycopg2
 import pandas as pd
+import matplotlib.pyplot as plt
 
 st.title('Welcome to our Weather App')
 st.write("**Select a city from the side bar to explore its weather.**")
@@ -76,6 +77,26 @@ def db_connect():
     except Exception as e:
         print(f"Error: {e}")
         return None
+    
+def plot_temp(city_data):
+    try:
+        city_data['date'] = pd.to_datetime(city_data['date'])
+        plt.figure(figsize=(10, 6))
+        plt.plot(selected_city['date'], selected_city['temperature'], marker='o', linestyle='-')
+        plt.title(f'Temperature Changes in {selected_city["city"].iloc[0]}')
+        plt.xlabel('Date')
+        plt.ylabel('Temperature (°C)')
+    except Exception as e:
+        print(f"Error plotting graph: {e}")
+
+city_weather_data = db_connect(selected_city)
+if city_weather_data is not None:
+    plot_temp(city_weather_data)
+else:
+    print("Failed to retrieve weather data for the specified city.")
+
+
+
 
  
 
