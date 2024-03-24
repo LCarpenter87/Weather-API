@@ -73,6 +73,12 @@ DB_PASSWORD = os.getenv("DB_PASSWORD")
 DB_HOST = os.getenv("DB_HOST")
 DB_PORT = os.getenv("DB_PORT")
 
+print("DB_NAME:", DB_NAME)
+print("DB_USER:", DB_USER)
+print("DB_PASSWORD:", DB_PASSWORD)
+print("DB_HOST:", DB_HOST)
+print("DB_PORT:", DB_PORT)
+
 # Connect to the database and fetch temperature data
 engine = create_engine(f'postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}')
 data = pd.read_sql("SELECT date, temperature FROM weather", engine)
