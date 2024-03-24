@@ -61,7 +61,8 @@ with right_col:
         st.image(icon_url, caption='Weather Condition', use_column_width=True)
     
 # Initialise connection to database:
-conn = st.connection("postgresql", type="sql")
+db_config = st.secrets["database"]
+conn = st.connection("postgresql", **db_config)
 
 # Perform query.
 query = 'SELECT * FROM weather;'
