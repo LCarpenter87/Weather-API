@@ -3,9 +3,11 @@ import requests
 import numpy as np
 import sqlalchemy
 from sqlalchemy import create_engine
-#import psycopg2
+import psycopg2
 import pandas as pd
 import matplotlib.pyplot as plt
+from dotenv import load_dotenv
+import os
 
 st.title('Welcome to our Weather App')
 st.write("**Select a city from the side bar to explore its weather.**")
@@ -59,37 +61,54 @@ with right_col:
     if weather_data:
         icon_url = "https:" + icon
         st.image(icon_url, caption='Weather Condition', use_column_width=True)
-    
-# Initialise connection to database:
-db_config = st.secrets["database"]
-conn = st.connection("postgresql", **db_config)
 
-# Perform query.
-query = 'SELECT * FROM weather;'
-df = conn.query(query)
 
-def plot_temperature_over_date(df):
+
+# Load environment variables from .env
+load_dotenv()
+
+# set up db connection:
+
+# Get database credentials 
+DB_NAME = os.getenv("DB_NAME")
+DB_USER = os.getenv("DB_USER")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
+DB_HOST = os.getenv("DB_HOST")
+DB_PORT = os.getenv("DB_PORT")
+
+# initialise connection
+
+def connect_to_db():
     try:
-        # Convert date strings to datetime objects
-        df['date'] = pd.to_datetime(df['date'])
-
-        # Plot the line graph
-        plt.figure(figsize=(10, 6))
-        plt.plot(df['date'], df['temperature'], marker='o', linestyle='-')
-        plt.title(f'Temperature Changes over Time')
-        plt.xlabel('Date')
-        plt.ylabel('Temperature (°C)')
-        plt.xticks(rotation=45)
-        plt.grid(True)
-        st.pyplot(plt)  # Show the plot in Streamlit
+        conn = psycopg2.connect(
+            dbname=DB_NAME,
+            user=DB_USER,
+            password=DB_PASSWORD,
+            host=DB_HOST,
+            port=DB_PORT
+        )
+        return conn
     except Exception as e:
-        st.error(f"Error plotting graph: {e}")
+        st.error(f"Error: {e}")
+        return None
+    
+def main():
+    # Connect to the database
+    conn = connect_to_db()
+    if conn is not None:
+        st.success("Connected successfully!")
+        # Proceed with querying data or other operations
+    else:
+        st.error("Failed to connect")
 
-# Example usage
-if df is not None:
-    plot_temperature_over_date(df)
-else:
-    st.error("Failed to retrieve data from the database.")
+main()
+
+
+
+
+
+
+
 
 
 
