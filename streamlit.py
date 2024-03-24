@@ -85,11 +85,11 @@ def connect_to_db():
         print(f"Error connecting to the database: {e}")
         return None
 
-data = connect_to_db()
+data1 = connect_to_db()
 
-if data:
+if data1:
     plt.figure(figsize=(10, 6))
-    plt.plot(data['date'],data['temperature'], marker = 'o', linestyle = '-')
+    plt.plot(data1['date'],data1['temperature'], marker = 'o', linestyle = '-')
     plt.title(f'Temperature changes in {selected_city}')
     plt.xlabel('Date')
     plt.ylabe('Temperature (°C)')
