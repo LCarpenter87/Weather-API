@@ -4,15 +4,21 @@ import psycopg2
 import pandas as pd
 
 st.title('Welcome to our Weather App')
+
 # Initialize database connection
 
-# Set up database connection
-dbname=st.secrets['db_name']
-user=st.secrets['db_user']
-password=st.secrets['db_password']
-host=st.secrets['db_host']
-port=5432
+@st.cache
+def init_connection():
+    conn = psycopg2.connect(
+        db_name=st.secrets['DB_NAME']
+        db_user=st.secrets['DB_USER']
+        db_password=st.secrets['DB_PASSWORD']
+        db_host=st.secrets['DB_HOST']
+        DB_PORT=5432
+    )
+    return conn
 
-# Function to fetch weather details for a given city
+# Use the connection
+conn = init_connection()
 
 
