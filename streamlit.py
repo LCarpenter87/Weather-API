@@ -42,8 +42,8 @@ if weather_data:
     st.write(f"CO: {CO}")
     st.write(f"NO2: {NO2}")
     st.write(F"Ozone (O3): {Ozone}")
-    #icon_url = "https:" + icon
-    st.image(icon, caption='Weather Condition', use_column_width=True)
+    icon_url = "https:" + icon
+    st.image(icon_url, caption='Weather Condition', use_column_width=True)
 
 else:
     st.error("Failed to fetch weather data. Please try again later.")
