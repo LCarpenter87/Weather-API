@@ -5,20 +5,14 @@ import pandas as pd
 
 st.title('Welcome to our Weather App')
 
-# Initialize database connection
+# Initialize connection.
+conn = st.connection("pagila", type="sql")
 
-@st.cache
-def init_connection():
-    conn = psycopg2.connect(
-        db_name=st.secrets['DB_NAME']
-        db_user=st.secrets['DB_USER']
-        db_password=st.secrets['DB_PASSWORD']
-        db_host=st.secrets['DB_HOST']
-        DB_PORT=5432
-    )
-    return conn
+# Perform query.
+df = conn.query('SELECT * FROM weather limit 15')
 
-# Use the connection
-conn = init_connection()
+# Print results.
+for row in df.itertuples():
+    st.write(f"{row.location}")
 
 
