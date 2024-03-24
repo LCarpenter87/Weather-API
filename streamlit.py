@@ -64,14 +64,14 @@ with right_col:
 
 
 # Load environment variables from .env
-#load_dotenv()
+load_dotenv()
 
 # Get database credentials 
-DB_NAME = st.secrets["DB_NAME"]
-DB_USER = st.secrets["DB_USER"]
-DB_PASSWORD = st.secrets["DB_PASSWORD"]
-DB_HOST = st.secrets["DB_HOST"]
-DB_PORT = st.secrets["DB_PORT"]
+DB_NAME = st.secrets("DB_NAME")
+DB_USER = st.secrets("DB_USER")
+DB_PASSWORD = st.secrets("DB_PASSWORD")
+DB_HOST = st.secrets("DB_HOST")
+DB_PORT = st.secrets("DB_PORT")
 
 # set up db connection:
 
