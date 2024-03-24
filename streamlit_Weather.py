@@ -1,6 +1,6 @@
 import streamlit as st
-import requests
-import psycopg2
+#import requests
+#import psycopg2
 import pandas as pd
 
 st.title('Welcome to our Weather App')
