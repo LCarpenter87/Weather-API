@@ -2,4 +2,5 @@ psycopg2
 requests
 pandas
 datetime
-
+psycopg2-binary
+sqlalchemy
