@@ -28,9 +28,11 @@ if weather_data:
     st.write(f"Temperature: {weather_data['current']['temp_c']}°C")
     st.write(f"Condition: {weather_data['current']['condition']['text']}")
     st.write(f"Humidity: {weather_data['current']['humidity']}%")
-    st.write(f"Wind Speed: {weather_data['current']['wind_kph']} km/h")
     st.write(f"Cloud Cover: {weather_data['current']['cloud']}%")
     st.write(f"UV Index: {weather_data['current']['uv']}")
+    st.write(f"CO: {weather_data['current']['air_quality']['co']}")
+    st.write(f"NO2: {weather_data['current']['air_quality']['no2']}")
+    st.write(F"Ozone (O3): {weather_data['current']['air_quality']['o3']}")
 else:
     st.error("Failed to fetch weather data. Please try again later.")
 
