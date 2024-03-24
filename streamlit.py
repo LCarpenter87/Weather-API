@@ -34,7 +34,7 @@ weather_data = temperature, condition, icon, humidity, Cloud_cover, UV_index, CO
 
 
 
-left_col, middle_col, cent_col, right_col = st.columns([10,7, 7,10])
+left_col,  right_col, right_hand_col = st.columns([10,6, 4])
 
 with left_col:
 
