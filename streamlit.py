@@ -85,17 +85,51 @@ def connect_to_db():
         print(f"Error connecting to the database: {e}")
         return None
 
-data1 = connect_to_db()
+#data1 = connect_to_db()
 
-if data1:
-    plt.figure(figsize=(10, 6))
-    plt.plot(data1['date'],data1['temperature'], marker = 'o', linestyle = '-')
-    plt.title(f'Temperature changes in {selected_city}')
-    plt.xlabel('Date')
-    plt.ylabe('Temperature (°C)')
-    st.pyplot()
-else:
-    st.write('No data available')
+import matplotlib.pyplot as plt
+
+def temperature_data():
+    try:
+        # Establish a connection to the database
+        engine = create_engine(f'postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}')
+
+        # Query to fetch temperature data with dates
+        query = "SELECT date, temperature FROM weather"
+
+        # Fetch the data from the database
+        data = pd.read_sql(query, engine)
+
+        # Close the database connection
+        engine.dispose()
+
+        return data
+    except Exception as e:
+        print(f"Error fetching temperature data: {e}")
+        return None
+
+def plot_temperature_dates(data):
+    if data is not None:
+        # Convert the 'date' column to datetime format
+        data['date'] = pd.to_datetime(data['date'])
+
+        # Plot temperature against dates
+        plt.figure(figsize=(10, 6))
+        plt.plot(data['date'], data['temperature'], marker='o', linestyle='-')
+        plt.title('Temperature Variation Over Dates')
+        plt.xlabel('Date')
+        plt.ylabel('Temperature (°C)')
+        plt.grid(True)
+        plt.show()
+    else:
+        print("No data available to plot.")
+
+# Fetch temperature data from the database
+temperature_data = temperature_data()
+
+# Plot temperature against dates
+plot_temperature_dates(temperature_data)
+
 
 
 
