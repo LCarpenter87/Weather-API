@@ -61,39 +61,34 @@ with right_col:
         st.image(icon_url, caption='Weather Condition', use_column_width=True)
     
 # Initialise connection to database:
-dbname=st.secrets['DB_USER']
-dbuser=st.secrets['DB_USER']
-password=st.secrest['DB_PASSWORD']
-host=st.secrets['DB_HOST']
-port=st.secrets['DB_PORT']
+conn = st.connection("postgresql", type="sql")
 
-def db_connect():
+# Perform query.
+query = 'SELECT * FROM weather;'
+df = conn.query(query)
+
+def plot_temperature_over_date(df):
     try:
-        engine = create_engine(f"postgresql://{dbuser}:{password}@{host}:{port}/{dbname}")
-        query = f'SELECT * FROM weather'
-        data = pd.read_sql(query, engine)
-        return data
-    except Exception as e:
-        print(f"Error: {e}")
-        return None
-    
-def plot_temp(city_data):
-    try:
-        city_data['date'] = pd.to_datetime(city_data['date'])
+        # Convert date strings to datetime objects
+        df['date'] = pd.to_datetime(df['date'])
+
+        # Plot the line graph
         plt.figure(figsize=(10, 6))
-        plt.plot(selected_city['date'], selected_city['temperature'], marker='o', linestyle='-')
-        plt.title(f'Temperature Changes in {selected_city["city"].iloc[0]}')
+        plt.plot(df['date'], df['temperature'], marker='o', linestyle='-')
+        plt.title(f'Temperature Changes over Time')
         plt.xlabel('Date')
         plt.ylabel('Temperature (°C)')
+        plt.xticks(rotation=45)
+        plt.grid(True)
+        st.pyplot(plt)  # Show the plot in Streamlit
     except Exception as e:
-        print(f"Error plotting graph: {e}")
+        st.error(f"Error plotting graph: {e}")
 
-city_weather_data = db_connect(selected_city)
-if city_weather_data is not None:
-    plot_temp(city_weather_data)
+# Example usage
+if df is not None:
+    plot_temperature_over_date(df)
 else:
-    print("Failed to retrieve weather data for the specified city.")
-
+    st.error("Failed to retrieve data from the database.")
 
 
 
