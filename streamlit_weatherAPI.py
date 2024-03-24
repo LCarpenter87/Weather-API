@@ -4,24 +4,25 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sqlalchemy import create_engine
 
-@st.cache_resource
-def init_connection():
-    return psycopg2.connect(**st.secrets["pagilla"])
+st.title('Welcome to the Weather App')
 
-conn = init_connection()
+def connect():
+    try:
+        conn = psycopg2.connect(
+            dbname=st.secrets['dbname'],
+            user=st.secrets['user'],
+            password=st.secrets['password'],
+            host=st.secrets['host'],
+            port="5432")
+        st.write("Connected to the database!")
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM student.weather limit 10")
+        rows = cur.fetchall()
+        for row in rows:
+            st.write(row)
 
-st.title('Welcome to our Weather App')
-
-@st.cache_data(ttl=600)
-def run_query(query):
-    with conn.cursor() as cur:
-        cur.execute(query)
-        return cur.fetchall()
-
-rows = run_query("SELECT * from weather limit 20")
-
-data=pd.DataFrame(rows)
-#data.columns=['location', 'country', 'date', 'current_time', 'time_updated', 'temperature', 'condition', 'wind_speed_mph', 'wind_direction', 'humidity', 'cloud', 'uv_index', 'co', 'no2', 'o3']
-
-st.write(data, columns=['Location', 'Date', 'Current Time', 'Time Updated', 'Temperature', 'Condition', 'Humidity', 'Cloud', 'UV Index', 'CO', 'NO2', 'O3'])
-#st.table(data)
+    except Exception as e:
+        st.error(f"Unable to connect to the database: {e}")
+    finally:
+        if conn is not None:
+            conn.close()
