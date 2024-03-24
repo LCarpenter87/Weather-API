@@ -1,8 +1,0 @@
-psycopg2
-requests
-pandas
-datetime
-streamlit
-matplotlib
-psycopg2-binary
-sqlalchemy
