@@ -75,11 +75,39 @@ DB_PORT = os.getenv("DB_PORT")
 
 # set up db connection:
 
-def connect_to_db():
-    engine = create_engine(f'postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}')
-    query = f'SELECT * FROM weather' 
+
+engine = create_engine(f'postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}')
+
+
+
+def temperature_data(cities):
+    query = f"SELECT date, temperature FROM weather WHERE location = '{cities}'"
     data = pd.read_sql(query, engine)
     return data
+
+
+def plot_temp_data(city_temp, city_name):
+    plt.figure(figsize=(10, 6))
+    plt.plot(city_temp['date'],city_temp['temperature'], marker = 'o', linestyle = '-')
+    plt.title(f'Temperature changes in {city_name}')
+    plt.xlabel('Date')
+    plt.ylabe('Temperature (°C)')
+    st.pyplot()
+
+
+def main():
+    # Select city
+    selected_city = st.sidebar.selectbox('Select a city', cities)
+
+    # Fetch temperature data for the selected city
+    city_data = temperature_data(selected_city)
+
+    # Plot temperature data
+    plot_temp_data(city_data, selected_city)
+
+
+main()
+
 
 
 
