@@ -1,0 +1,6 @@
+[connections.pagila]
+DB_NAME="pagila"
+DB_USER="de_akpr"
+DB_PASSWORD="vampilluntion"
+DB_HOST="data-sandbox.c1tykfvfhpit.eu-west-2.rds.amazonaws.com"
+DB_PORT=5432
