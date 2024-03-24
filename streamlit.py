@@ -75,6 +75,8 @@ def db_connect():
         return data
     except Exception as e:
         print(f"Error: {e}")
-        return None 
+        return None
+
+ 
 
 
