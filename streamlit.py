@@ -75,8 +75,15 @@ DB_PORT = os.getenv("DB_PORT")
 
 # set up db connection:
 
-
-engine = create_engine(f'postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}')
+def connect_to_db():
+    try:
+        engine = create_engine(f'postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}')
+        query = f'SELECT * FROM weather' 
+        data = pd.read_sql(query, engine)
+        return data
+    except Exception as e:
+        print(f"Error connecting to the database: {e}")
+        return None
 
 
 
