@@ -15,6 +15,7 @@ def get_details(cities):
         weather = response.json()
         temperature = weather['current']['temp_c']
         condition = weather['current']['condition']['text']
+        icon = weather['current']['condition']['icon']
         humidity = weather['current']['humidity']
         Cloud_cover= weather['current']['cloud']
         UV_index= weather['current']['uv']
@@ -29,10 +30,11 @@ def get_details(cities):
 cities = ['London', 'Manchester', 'Birmingham', 'Glasgow', 'Leeds', 'Liverpool', 'Sheffield', 'Bristol', 'Edinburgh', 'Leicester',  'York', 'Cardiff', 'Brighton', 'Coventry', 'Bath']
 selected_city = st.sidebar.selectbox('Select a city', cities)
 
-weather_data = temperature, condition, humidity, Cloud_cover, UV_index, CO, NO2, Ozone = get_details(selected_city)
+weather_data = temperature, condition, icon, humidity, Cloud_cover, UV_index, CO, NO2, Ozone = get_details(selected_city)
 
 if weather_data:
     st.title(f"{selected_city}")
+    st.image(icon, caption='Weather Condition', use_column_width=True)
     st.write(f"Temperature: {temperature}°C")
     st.write(f"Condition: {condition}")
     st.write(f"Humidity: {humidity}%")
@@ -41,5 +43,6 @@ if weather_data:
     st.write(f"CO: {CO}")
     st.write(f"NO2: {NO2}")
     st.write(F"Ozone (O3): {Ozone}")
+    
 else:
     st.error("Failed to fetch weather data. Please try again later.")
