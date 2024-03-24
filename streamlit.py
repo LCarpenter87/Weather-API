@@ -85,34 +85,18 @@ def connect_to_db():
         print(f"Error connecting to the database: {e}")
         return None
 
+data = connect_to_db()
 
-
-def temperature_data(cities):
-    engine = create_engine(f'postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}')
-    query = f"SELECT date, temperature FROM weather WHERE location = {cities}"
-    data = pd.read_sql(query, engine)
-    return data
-
-
-def plot_temp_data(city_temp, city_name):
+if data:
     plt.figure(figsize=(10, 6))
-    plt.plot(city_temp['date'],city_temp['temperature'], marker = 'o', linestyle = '-')
-    plt.title(f'Temperature changes in {city_name}')
+    plt.plot(data['date'],data['temperature'], marker = 'o', linestyle = '-')
+    plt.title(f'Temperature changes in {selected_city}')
     plt.xlabel('Date')
     plt.ylabe('Temperature (°C)')
     st.pyplot()
+else:
+    st.write('No data available')
 
-
-def main():
-
-    # Fetch temperature data for the selected city
-    city_data = temperature_data(selected_city)
-
-    # Plot temperature data
-    plot_temp_data(city_data)
-
-
-main()
 
 
 
