@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 import numpy as np
+import sqlalchemy
 #import psycopg2
 import pandas as pd
 
