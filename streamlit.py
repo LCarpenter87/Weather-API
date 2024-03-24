@@ -64,14 +64,14 @@ with right_col:
 
 
 # Load environment variables from .env
-load_dotenv()
+#load_dotenv()
 
 # Get database credentials 
-DB_NAME = os.getenv("DB_NAME")
-DB_USER = os.getenv("DB_USER")
-DB_PASSWORD = os.getenv("DB_PASSWORD")
-DB_HOST = os.getenv("DB_HOST")
-DB_PORT = os.getenv("DB_PORT")
+DB_NAME = st.secrets["DB_NAME"]
+DB_USER = st.secrets["DB_USER"]
+DB_PASSWORD = st.secrets["DB_PASSWORD"]
+DB_HOST = st.secrets["DB_HOST"]
+DB_PORT = st.secrets["DB_PORT"]
 
 # set up db connection:
 
@@ -87,7 +87,7 @@ def connect_to_db():
 
 data = connect_to_db()
 
-if not data.empty:
+if data:
     plt.figure(figsize=(10, 6))
     plt.plot(data['date'],data['temperature'], marker = 'o', linestyle = '-')
     plt.title(f'Temperature changes in {selected_city}')
