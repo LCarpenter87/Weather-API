@@ -7,4 +7,3 @@ matplotlib
 psycopg2-binary
 numpy
 sqlalchemy
-create_engine
