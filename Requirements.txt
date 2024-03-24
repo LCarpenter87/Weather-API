@@ -6,3 +6,4 @@ streamlit
 matplotlib
 psycopg2-binary
 sqlalchemy
+create_engine
