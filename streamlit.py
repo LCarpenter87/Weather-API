@@ -3,7 +3,7 @@ import requests
 import numpy as np
 import sqlalchemy
 from sqlalchemy import create_engine
-import psycopg2
+#import psycopg2
 import pandas as pd
 import matplotlib.pyplot as plt
 
