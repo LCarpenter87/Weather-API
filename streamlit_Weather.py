@@ -10,9 +10,6 @@ conn = st.connection("pagila", type="sql")
 
 # Perform query.
 df = conn.query('SELECT * FROM weather limit 15')
-
-# Print results.
-for row in df.itertuples():
-    st.write(f"{row.location}")
+st.write(df)
 
 
