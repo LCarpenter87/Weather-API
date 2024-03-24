@@ -1,6 +1,8 @@
 import streamlit as st
 import psycopg2
 import pandas as pd
+import matplotlib.pyplot as plt
+from sqlalchemy import create_engine
 
 @st.cache_resource
 def init_connection():
