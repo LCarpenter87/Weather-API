@@ -22,7 +22,7 @@ def get_details(cities):
         CO = weather['current']['air_quality']['co']
         NO2= weather['current']['air_quality']['no2']
         Ozone= weather['current']['air_quality']['o3']
-        return temperature, condition, humidity, Cloud_cover, UV_index, CO, NO2, Ozone
+        return temperature, condition, icon, humidity, Cloud_cover, UV_index, CO, NO2, Ozone
         
     except:
         return 'Error', np.NAN, np.NAN, np.NAN, np.NAN, np.NAN, np.NAN, np.NAN, np.NAN
@@ -34,7 +34,6 @@ weather_data = temperature, condition, icon, humidity, Cloud_cover, UV_index, CO
 
 if weather_data:
     st.title(f"{selected_city}")
-    st.image(icon, caption='Weather Condition', use_column_width=True)
     st.write(f"Temperature: {temperature}°C")
     st.write(f"Condition: {condition}")
     st.write(f"Humidity: {humidity}%")
@@ -43,6 +42,8 @@ if weather_data:
     st.write(f"CO: {CO}")
     st.write(f"NO2: {NO2}")
     st.write(F"Ozone (O3): {Ozone}")
-    
+    #icon_url = "https:" + icon
+    st.image(icon, caption='Weather Condition', use_column_width=True)
+
 else:
     st.error("Failed to fetch weather data. Please try again later.")
