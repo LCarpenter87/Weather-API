@@ -87,7 +87,7 @@ def connect_to_db():
 
 data = connect_to_db()
 
-if data:
+if not data.empty:
     plt.figure(figsize=(10, 6))
     plt.plot(data['date'],data['temperature'], marker = 'o', linestyle = '-')
     plt.title(f'Temperature changes in {selected_city}')
