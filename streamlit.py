@@ -78,30 +78,16 @@ DB_PORT = os.getenv("DB_PORT")
 
 # initialise connection
 
-def connect_to_db():
-    try:
-        conn = psycopg2.connect(
-            dbname=DB_NAME,
-            user=DB_USER,
-            password=DB_PASSWORD,
-            host=DB_HOST,
-            port=DB_PORT
-        )
-        return conn
-    except Exception as e:
-        st.error(f"Error: {e}")
-        return None
-    
-def main():
-    # Connect to the database
-    conn = connect_to_db()
-    if conn is not None:
-        st.success("Connected successfully!")
-        # Proceed with querying data or other operations
-    else:
-        st.error("Failed to connect")
+st.title('Trends in Earthquake Frequency')
 
-main()
+# Function to load data from the database
+def connect_to_db():
+    engine = create_engine(f'postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}')
+    query = f'SELECT * FROM weather' 
+    data = pd.read_sql(query, engine)
+    return data
+
+
 
 
 
