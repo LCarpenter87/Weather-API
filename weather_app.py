@@ -65,6 +65,7 @@ with right_col:
 
 
 #connect to db:
+from sqlalchemy import create_engine        
   
 db_user = st.secrets["DB_USER"]
 db_password = st.secrets["DB_PASSWORD"]
@@ -72,11 +73,43 @@ db_hosts = st.secrets["DB_HOSTS"]
 db_name = st.secrets["DB_NAME"]
 db_port = st.secrets["DB_PORT"]
 
+from sqlalchemy import create_engine
+import streamlit as st
+import pandas as pd
+
+# Fetch database credentials from secrets
+db_user = st.secrets["DB_USER"]
+db_password = st.secrets["DB_PASSWORD"]
+db_host = st.secrets["DB_HOSTS"]
+db_name = st.secrets["DB_NAME"]
+db_port = st.secrets["DB_PORT"]
+
+@st.cache
 def db_connect():
-    engine = create_engine(f'postgresql://{db_user}:{db_password}@{db_hosts}:{db_port}/{db_name}')
-    query = f'SELECT * FROM student.weather' 
-    data = pd.read_sql(query, engine)
-    return data
+    try:
+        engine = create_engine(f'postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}')
+        query = 'SELECT * FROM weather'  # Adjust the table name if needed
+        data = pd.read_sql(query, engine)
+        return data
+    except Exception as e:
+        st.error(f"Error connecting to database: {e}")
+        return None
+
+# Connect to the database and fetch data
+weather_data = db_connect()
+
+# Display the fetched data
+if weather_data is not None:
+    st.write(weather_data)
+else:
+    st.error("Failed to get weather data.")
+
+
+#def db_connect():
+#    engine = create_engine(f'postgresql://{db_user}:{db_password}@{db_hosts}:{db_port}/{db_name}')
+#    query = f'SELECT * FROM student.weather' 
+#    data = pd.read_sql(query, engine)
+#    return data
 
 
 # connect to db:
@@ -93,11 +126,11 @@ def db_connect():
 #@st.cache(allow_output_mutation=True)
 #def init_connection():
 #    conn = psycopg2.connect(
-#        user=db_user,
-#        password=db_password,
-#        host=db_host,
-#        port=db_port,
-#        database=db_name
+#        db_user,
+#        db_password,
+#        db_host,
+#        db_port,
+#        db_name
 #    )
 #    return conn
 
