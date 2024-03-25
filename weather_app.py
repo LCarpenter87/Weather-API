@@ -1,12 +1,12 @@
 import streamlit as st
 import requests
 import numpy as np
-from sqlalchemy import create_engine
-import psycopg2
-import pandas as pd
-import matplotlib.pyplot as plt
-from dotenv import load_dotenv
-import os
+#from sqlalchemy import create_engine
+#import psycopg2
+#import pandas as pd
+#import matplotlib.pyplot as plt
+#from dotenv import load_dotenv
+#import os
 
 st.title('Welcome to our Weather App')
 st.write("**Select a city from the side bar to explore its weather.**")
