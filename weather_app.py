@@ -1,9 +1,9 @@
 import streamlit as st
 import requests
 import numpy as np
-import sqlalchemy
+#import sqlalchemy
 #from sqlalchemy import create_engine
-#import psycopg2
+import psycopg2
 import pandas as pd
 #import matplotlib.pyplot as plt
 #from dotenv import load_dotenv
@@ -84,10 +84,21 @@ with right_col:
 
 
 # Initialize connection.
-conn = st.connection("postgresql", type="sql")
+@st.cache_resource
+def init_connection():
+    return psycopg2.connect(**st.secrets["postgresql"])
 
-# Perform query.
-df = conn.query('SELECT * FROM weather limit 10;')
+conn = init_connection()
 
-st.table(df)
+@st.cache_data
+def run_query(query):
+    with conn.cursor() as cur:
+        cur.execute(query)
+        return cur.fetchall()
+
+rows = run_query("SELECT loction, time_updated, temperature from weather limit 15")
+
+data=pd.DataFrame(rows)
+data.columns=['location','time_updated','temperature']
+st.table(data)
 
