@@ -1,9 +1,9 @@
 import streamlit as st
 import requests
 import numpy as np
-#from sqlalchemy import create_engine
+from sqlalchemy import create_engine
 #import psycopg2
-#import pandas as pd
+import pandas as pd
 #import matplotlib.pyplot as plt
 #from dotenv import load_dotenv
 #import os
@@ -64,5 +64,17 @@ with right_col:
 
 
 #connect to db:
-        
+  
+db_user = st.secrets["DB_USER"]
+db_password = st.secrets["DB_PASSWORD"]
+db_hosts = st.secrets["DB_HOSTS"]
+db_name = st.secrets["DB_NAME"]
+db_port = st.secrets["DB_PORT"]
+
+def db_connect():
+    engine = create_engine(f'postgresql://{db_user}:{db_password}@{db_hosts}:{db_port}/{db_name}')
+    query = f'SELECT * FROM student.weather' 
+    data = pd.read_sql(query, engine)
+    return data
+
 
