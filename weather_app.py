@@ -88,7 +88,7 @@ db_user = os.getenv("DB_USER")
 db_password = os.getenv("DB_PASSWORD")
 db_host = os.getenv("DB_HOSTS")
 db_name = os.getenv("DB_NAME")
-db_port = os.getenv("DB_PORT")
+db_port = os.getenv("5432")
 
 @st.cache(allow_output_mutation=True)
 def init_connection():
