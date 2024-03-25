@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 import numpy as np
 #import sqlalchemy
-#from sqlalchemy import create_engine
+from sqlalchemy import create_engine
 import psycopg2
 import pandas as pd
 #import matplotlib.pyplot as plt
@@ -66,55 +66,55 @@ with right_col:
 
 #connect to db:
   
-#db_user = st.secrets["DB_USER"]
-#db_password = st.secrets["DB_PASSWORD"]
-#db_hosts = st.secrets["DB_HOSTS"]
-#db_name = st.secrets["DB_NAME"]
-#db_port = st.secrets["DB_PORT"]
+db_user = st.secrets["DB_USER"]
+db_password = st.secrets["DB_PASSWORD"]
+db_hosts = st.secrets["DB_HOSTS"]
+db_name = st.secrets["DB_NAME"]
+db_port = st.secrets["DB_PORT"]
 
-#def db_connect():
-    #engine = create_engine(f'postgresql://{db_user}:{db_password}@{db_hosts}:{db_port}/{db_name}')
-    #query = f'SELECT * FROM student.weather' 
-    #data = pd.read_sql(query, engine)
-    #return data
+def db_connect():
+    engine = create_engine(f'postgresql://{db_user}:{db_password}@{db_hosts}:{db_port}/{db_name}')
+    query = f'SELECT * FROM student.weather' 
+    data = pd.read_sql(query, engine)
+    return data
 
 
 # connect to db:
 
-import os
+#import os
 
 # Get database credentials
-db_user = os.getenv("DB_USER")
-db_password = os.getenv("DB_PASSWORD")
-db_host = os.getenv("DB_HOSTS")
-db_name = os.getenv("DB_NAME")
-db_port = os.getenv("5432")
+#db_user = os.getenv("DB_USER")
+#db_password = os.getenv("DB_PASSWORD")
+#db_host = os.getenv("DB_HOSTS")
+#db_name = os.getenv("DB_NAME")
+#db_port = os.getenv("5432")
 
-@st.cache(allow_output_mutation=True)
-def init_connection():
-    conn = psycopg2.connect(
-        user=db_user,
-        password=db_password,
-        host=db_host,
-        port=db_port,
-        database=db_name
-    )
-    return conn
+#@st.cache(allow_output_mutation=True)
+#def init_connection():
+#    conn = psycopg2.connect(
+#        user=db_user,
+#        password=db_password,
+#        host=db_host,
+#        port=db_port,
+#        database=db_name
+#    )
+#    return conn
 
-conn = init_connection()
+#conn = init_connection()
 
-# Run query
-@st.cache
-def run_query(query):
-    with conn.cursor() as cur:
-        cur.execute(query)
-        return cur.fetchall()
+## Run query
+#@st.cache
+#def run_query(query):
+#    with conn.cursor() as cur:
+#        cur.execute(query)
+#        return cur.fetchall()
 
-rows = run_query("SELECT location, time_updated, temperature FROM weather LIMIT 15")
+#rows = run_query("SELECT location, time_updated, temperature FROM weather LIMIT 15")
 
 # Display data
-data = pd.DataFrame(rows, columns=['Location', 'Time Updated', 'Temperature'])
-st.table(data)
+#data = pd.DataFrame(rows, columns=['Location', 'Time Updated', 'Temperature'])
+#st.table(data)
 
 
 
