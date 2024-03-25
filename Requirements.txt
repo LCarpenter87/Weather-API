@@ -6,4 +6,4 @@ streamlit
 matplotlib
 psycopg2-binary
 numpy
-sqlalchemy
+sqlalchemy==4.10.0
