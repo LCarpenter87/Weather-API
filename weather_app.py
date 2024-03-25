@@ -89,5 +89,5 @@ conn = st.connection("postgresql", type="sql")
 # Perform query.
 df = conn.query('SELECT * FROM weather limit 10;')
 
-st.write(df)
+st.table(df)
 
