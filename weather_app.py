@@ -87,7 +87,7 @@ with right_col:
 conn = st.connection("postgresql", type="sql")
 
 # Perform query.
-df = conn.query('SELECT * FROM weather limit 10;', ttl="10m")
+df = conn.query('SELECT * FROM weather limit 10;')
 
 st.write(df)
 
