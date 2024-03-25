@@ -53,7 +53,7 @@ with left_col:
         st.write(f"NO2: {NO2}")
         st.write(F"Ozone (O3): {Ozone}")
     else:
-        st.error("Failed to fetch weather data. Please try again later.")
+        st.error("Failed to get data.")
 
 with right_col:
 
