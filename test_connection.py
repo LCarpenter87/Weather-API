@@ -7,7 +7,3 @@ DB_HOSTS = os.getenv("DB_HOST")
 DB_PORT = os.getenv("DB_PORT")
 
 
-
-# Print all environment variables
-for key, value in os.environ.items():
-    print(f"{key}: {value}")
