@@ -81,24 +81,40 @@ with right_col:
 
 # connect to db:
 
+import os
 
+# Get database credentials
+db_user = os.getenv("DB_USER")
+db_password = os.getenv("DB_PASSWORD")
+db_host = os.getenv("DB_HOSTS")
+db_name = os.getenv("DB_NAME")
+db_port = os.getenv("DB_PORT")
 
-# Initialize connection.
-@st.cache_resource
+@st.cache(allow_output_mutation=True)
 def init_connection():
-    return psycopg2.connect(**st.secrets["postgresql"])
+    conn = psycopg2.connect(
+        user=db_user,
+        password=db_password,
+        host=db_host,
+        port=db_port,
+        database=db_name
+    )
+    return conn
 
 conn = init_connection()
 
-@st.cache_data
+# Run query
+@st.cache
 def run_query(query):
     with conn.cursor() as cur:
         cur.execute(query)
         return cur.fetchall()
 
-rows = run_query("SELECT loction, time_updated, temperature from weather limit 15")
+rows = run_query("SELECT location, time_updated, temperature FROM weather LIMIT 15")
 
-data=pd.DataFrame(rows)
-data.columns=['location','time_updated','temperature']
+# Display data
+data = pd.DataFrame(rows, columns=['Location', 'Time Updated', 'Temperature'])
 st.table(data)
+
+
 
